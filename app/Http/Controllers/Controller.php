@@ -28,6 +28,8 @@ class Controller extends BaseController
 
   const RANGE_MONTH = 'Kasboek!H8:H20';
 
+  const RANGE_DATA = 'Kasboek!H7:M20';
+
   const RANGE_SALDO = 'Kasboek!B5';
 
   public function __construct()
@@ -46,8 +48,12 @@ class Controller extends BaseController
   public function serve()
   {
     $saldo = $this->readData(self::RANGE_SALDO)[0][0];
+    $data = json_encode($this->readData(self::RANGE_DATA));
 
-    return view('welcome')->with(compact('saldo'));
+    return view('welcome')->with(compact(
+      'saldo',
+      'data'
+    ));
   }
 
   public function handleForm(Request $request)
@@ -84,18 +90,22 @@ class Controller extends BaseController
     }
 
     $saldo = $this->readData(self::RANGE_SALDO)[0][0];
+    $data = json_encode($this->readData(self::RANGE_DATA));
 
-    return view('welcome')->with(compact('saldo'));
+    return view('welcome')->with(compact(
+      'saldo',
+      'data'
+    ));
   }
 
-  function readData($range)
+  private function readData($range)
   {
     $response = $this->service->spreadsheets_values->get($this->sheet_id, $range);
     $values = $response->getValues();
     return $values ?? [];
   }
 
-  function writeData($cell, $value)
+  private function writeData($cell, $value)
   {
     $valueInputOption = 'USER_ENTERED';
     $values = [[$value],];

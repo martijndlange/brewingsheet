@@ -12450,11 +12450,19 @@ body {
 }
 
 .form-holder {
-  padding: 0 15px;
+  padding: 15px;
   box-sizing: border-box;
 }
 
 .panel {
   background-color: #fff;
+}
+
+#tab-content p {
+  display: none;
+}
+
+#tab-content p.is-active {
+  display: block;
 }
 
