@@ -6,13 +6,21 @@
           <p class="panel-heading">
             Kas: {{ saldo }}
           </p>
-
+          <!-- styling tabs: https://jsfiddle.net/sol_b/L3wLe6h0/2/ -->
+          <!-- styling tabs: https://codepen.io/puerdon/pen/RVeZjP -->
           <tabs>
             <tab name="Overzicht" :selected="true">
               <table class="table">
-                <tr v-for="row in data">
-                  <td v-for="col in row">
-                    {{ col }}
+                <tr v-for="(row, rindex) in dataFields">
+                  <td
+                    v-for="(col, cindex) in row"
+                    :class="{
+                      'col--month': cindex === 0,
+                      'row--name': rindex === 0,
+                      'row--total': rindex === 1
+                     }"
+                  >
+                    {{ getCellValue(col) }}
                   </td>
                 </tr>
               </table>
@@ -39,18 +47,11 @@
                     <div class="control">
                       <div class="select is-fullwidth">
                         <select name="month">
-                          <option value="januari">Januari</option>
-                          <option value="februari">Februari</option>
-                          <option value="maart">Maart</option>
-                          <option value="april">April</option>
-                          <option value="mei">Mei</option>
-                          <option value="juni">Juni</option>
-                          <option value="juli">Juli</option>
-                          <option value="augustus">Augustus</option>
-                          <option value="september">September</option>
-                          <option value="oktober">Oktober</option>
-                          <option value="november">November</option>
-                          <option value="december">December</option>
+                          <option
+                            v-for="(month, index) in months"
+                            :selected="isCurrentMonth(index)"
+                          >{{ month.charAt(0).toUpperCase() + month.slice(1) }}
+                          </option>
                         </select>
                       </div>
                     </div>
@@ -60,8 +61,8 @@
                     <div class="control">
                       <div class="select is-fullwidth">
                         <select name="amount">
-                          <option value="0">€ 0,00</option>
                           <option value="10">€ 10,00</option>
+                          <option value="0">€ 0,00</option>
                         </select>
                       </div>
                       <span class="icon is-small is-left">
@@ -92,16 +93,41 @@
         required: false,
         default: 'sdf',
       },
-      data: {
+      dataFields: {
         type: Array,
         required: false,
         default: () => []
       },
     },
+    data() {
+      return{
+        months: [
+          'januari',
+          'februari',
+          'maart',
+          'april',
+          'mei',
+          'juni',
+          'juli',
+          'augustus',
+          'september',
+          'oktober',
+          'november',
+          'december',
+        ],
+      };
+    } ,
     mounted() {
-      console.log(data);
+      console.log(this.dataFields);
     },
     methods: {
+      getCellValue: function(val) {
+        return val.split(',')[0];
+      },
+      isCurrentMonth: function(index) {
+        const d = new Date();
+        return d.getMonth() === index;
+      },
       switchTab: function (tab) {
         //$('#tabs li').removeClass('is-active');
         //tab.addClass('is-active');
@@ -115,5 +141,19 @@
 <style lang="scss">
 td {
   font-size: 10px;
+  &.row {
+    &--name {
+      font-weight: bold;
+    }
+    &--total {
+      background-color: #eee;
+      font-weight: bold;
+    }
+  }
+  &.col {
+    &--month {
+      font-weight: bold;
+    }
+  }
 }
 </style>

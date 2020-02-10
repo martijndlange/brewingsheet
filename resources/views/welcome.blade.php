@@ -10,7 +10,7 @@
 <div id="app">
 <buk
   saldo="{{ $saldo }}"
-  :data="{{ $data }}"
+  :data-fields="{{ $data }}"
 ></buk>
 </div>
 <script src="{{ asset('js/app.js')}}"></script>

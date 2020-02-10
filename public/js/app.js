@@ -180,6 +180,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     saldo: {
@@ -187,7 +188,7 @@ __webpack_require__.r(__webpack_exports__);
       required: false,
       "default": 'sdf'
     },
-    data: {
+    dataFields: {
       type: Array,
       required: false,
       "default": function _default() {
@@ -195,10 +196,22 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
   },
+  data: function data() {
+    return {
+      months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december']
+    };
+  },
   mounted: function mounted() {
-    console.log(data);
+    console.log(this.dataFields);
   },
   methods: {
+    getCellValue: function getCellValue(val) {
+      return val.split(',')[0];
+    },
+    isCurrentMonth: function isCurrentMonth(index) {
+      var d = new Date();
+      return d.getMonth() === index;
+    },
     switchTab: function switchTab(tab) {//$('#tabs li').removeClass('is-active');
       //tab.addClass('is-active');
       //$('#tab-content p').removeClass('is-active');
@@ -221,7 +234,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "td {\n  font-size: 10px;\n}", ""]);
+exports.push([module.i, "td {\n  font-size: 10px;\n}\ntd.row--name {\n  font-weight: bold;\n}\ntd.row--total {\n  background-color: #eee;\n  font-weight: bold;\n}\ntd.col--month {\n  font-weight: bold;\n}", ""]);
 
 // exports
 
@@ -1355,17 +1368,27 @@ var render = function() {
                   _c(
                     "table",
                     { staticClass: "table" },
-                    _vm._l(_vm.data, function(row) {
+                    _vm._l(_vm.dataFields, function(row, rindex) {
                       return _c(
                         "tr",
-                        _vm._l(row, function(col) {
-                          return _c("td", [
-                            _vm._v(
-                              "\n                  " +
-                                _vm._s(col) +
-                                "\n                "
-                            )
-                          ])
+                        _vm._l(row, function(col, cindex) {
+                          return _c(
+                            "td",
+                            {
+                              class: {
+                                "col--month": cindex === 0,
+                                "row--name": rindex === 0,
+                                "row--total": rindex === 1
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.getCellValue(col)) +
+                                  "\n                "
+                              )
+                            ]
+                          )
                         }),
                         0
                       )
@@ -1414,55 +1437,29 @@ var render = function() {
                         _vm._v(" "),
                         _c("div", { staticClass: "control" }, [
                           _c("div", { staticClass: "select is-fullwidth" }, [
-                            _c("select", { attrs: { name: "month" } }, [
-                              _c("option", { attrs: { value: "januari" } }, [
-                                _vm._v("Januari")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "februari" } }, [
-                                _vm._v("Februari")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "maart" } }, [
-                                _vm._v("Maart")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "april" } }, [
-                                _vm._v("April")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "mei" } }, [
-                                _vm._v("Mei")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "juni" } }, [
-                                _vm._v("Juni")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "juli" } }, [
-                                _vm._v("Juli")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "augustus" } }, [
-                                _vm._v("Augustus")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "september" } }, [
-                                _vm._v("September")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "oktober" } }, [
-                                _vm._v("Oktober")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "november" } }, [
-                                _vm._v("November")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "december" } }, [
-                                _vm._v("December")
-                              ])
-                            ])
+                            _c(
+                              "select",
+                              { attrs: { name: "month" } },
+                              _vm._l(_vm.months, function(month, index) {
+                                return _c(
+                                  "option",
+                                  {
+                                    domProps: {
+                                      selected: _vm.isCurrentMonth(index)
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      _vm._s(
+                                        month.charAt(0).toUpperCase() +
+                                          month.slice(1)
+                                      ) + "\n                        "
+                                    )
+                                  ]
+                                )
+                              }),
+                              0
+                            )
                           ])
                         ])
                       ]),
@@ -1475,12 +1472,12 @@ var render = function() {
                         _c("div", { staticClass: "control" }, [
                           _c("div", { staticClass: "select is-fullwidth" }, [
                             _c("select", { attrs: { name: "amount" } }, [
-                              _c("option", { attrs: { value: "0" } }, [
-                                _vm._v("€ 0,00")
-                              ]),
-                              _vm._v(" "),
                               _c("option", { attrs: { value: "10" } }, [
                                 _vm._v("€ 10,00")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "0" } }, [
+                                _vm._v("€ 0,00")
                               ])
                             ])
                           ]),
