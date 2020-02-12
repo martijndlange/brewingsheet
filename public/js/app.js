@@ -181,6 +181,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     saldo: {
@@ -201,12 +205,27 @@ __webpack_require__.r(__webpack_exports__);
       months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december']
     };
   },
-  mounted: function mounted() {
-    console.log(this.dataFields);
+  mounted: function mounted() {// console.log(this.dataFields);
+  },
+  computed: {
+    maxCols: function maxCols() {
+      var max = 0;
+      this.dataFields.forEach(function (row) {
+        return max = max < row.length ? row.length : max;
+      });
+      return max;
+    }
   },
   methods: {
+    parsedRow: function parsedRow(row) {
+      var ret = new Array(this.maxCols);
+      row.forEach(function (row, i) {
+        return ret[i] = row;
+      });
+      return ret;
+    },
     getCellValue: function getCellValue(val) {
-      return val.split(',')[0];
+      return val !== undefined ? val.split(',')[0] : '';
     },
     isCurrentMonth: function isCurrentMonth(index) {
       var d = new Date();
@@ -234,7 +253,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "td {\n  font-size: 10px;\n}\ntd.row--name {\n  font-weight: bold;\n}\ntd.row--total {\n  background-color: #eee;\n  font-weight: bold;\n}\ntd.col--month {\n  font-weight: bold;\n}", ""]);
+exports.push([module.i, ".table-holder {\n  padding: 0 0 40px 0;\n}\ntd {\n  font-size: 10px;\n}\ntd.row--name {\n  font-weight: bold;\n}\ntd.row--total {\n  background-color: #eee;\n  font-weight: bold;\n}\ntd.col--month {\n  font-weight: bold;\n}\n\n/*\nHide radio button (the round disc)\nwe will use just the label to create pushbutton effect\n*/\ninput[type=radio] {\n  display: none;\n  margin: 10px;\n}\n\n/*\n  Change the look'n'feel of labels (which are adjacent to radiobuttons).\n  Add some margin, padding to label\n*/\ninput[type=radio] + label {\n  display: inline-block;\n  margin: -2px;\n  padding: 6px 12px;\n  background-color: #e7e7e7;\n  border-color: #ddd;\n}\n\n/*\n Change background color for label next to checked radio button\n to make it look like highlighted button\n*/\ninput[type=radio]:checked + label {\n  background-image: none;\n  background-color: #d0d0d0;\n}\ninput[type=radio] {\n  display: none;\n}\ninput[type=radio] + label {\n  width: 20%;\n  display: inline-block;\n  margin: -2px;\n  padding: 8px 12px;\n  margin-bottom: 0;\n  font-size: 14px;\n  line-height: 20px;\n  color: #333;\n  text-align: center;\n  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);\n  vertical-align: middle;\n  cursor: pointer;\n  background-color: #f5f5f5;\n  background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e6e6e6));\n  background-image: linear-gradient(to bottom, #fff, #e6e6e6);\n  background-repeat: repeat-x;\n  border: 1px solid #ccc;\n  border-color: #e6e6e6 #e6e6e6 #bfbfbf;\n  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);\n  border-bottom-color: #b3b3b3;\n  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=\"#ffffffff\",endColorstr=\"#ffe6e6e6\",GradientType=0);\n  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);\n  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);\n}\ninput[type=radio]:checked + label {\n  background-image: none;\n  outline: 0;\n  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);\n  background-color: #e0e0e0;\n}", ""]);
 
 // exports
 
@@ -1365,36 +1384,38 @@ var render = function() {
               "tabs",
               [
                 _c("tab", { attrs: { name: "Overzicht", selected: true } }, [
-                  _c(
-                    "table",
-                    { staticClass: "table" },
-                    _vm._l(_vm.dataFields, function(row, rindex) {
-                      return _c(
-                        "tr",
-                        _vm._l(row, function(col, cindex) {
-                          return _c(
-                            "td",
-                            {
-                              class: {
-                                "col--month": cindex === 0,
-                                "row--name": rindex === 0,
-                                "row--total": rindex === 1
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                  " +
-                                  _vm._s(_vm.getCellValue(col)) +
-                                  "\n                "
-                              )
-                            ]
-                          )
-                        }),
-                        0
-                      )
-                    }),
-                    0
-                  )
+                  _c("div", { staticClass: "table-holder" }, [
+                    _c(
+                      "table",
+                      { staticClass: "table is-fullwidth" },
+                      _vm._l(_vm.dataFields, function(row, rindex) {
+                        return _c(
+                          "tr",
+                          _vm._l(_vm.parsedRow(row), function(col, cindex) {
+                            return _c(
+                              "td",
+                              {
+                                class: {
+                                  "col--month": cindex === 0,
+                                  "row--name": rindex === 0,
+                                  "row--total": rindex === 1
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                    " +
+                                    _vm._s(_vm.getCellValue(col)) +
+                                    "\n                  "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      }),
+                      0
+                    )
+                  ])
                 ]),
                 _vm._v(" "),
                 _c("tab", { attrs: { name: "Storten" } }, [
@@ -1404,28 +1425,70 @@ var render = function() {
                         _c("label", { staticClass: "label" }, [_vm._v("Naam")]),
                         _vm._v(" "),
                         _c("div", { staticClass: "control" }, [
-                          _c("div", { staticClass: "select is-fullwidth" }, [
-                            _c("select", { attrs: { name: "name" } }, [
-                              _c("option", { attrs: { value: "Emiel" } }, [
-                                _vm._v("Emiel")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "Gerard" } }, [
-                                _vm._v("Gerard")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "Henk" } }, [
-                                _vm._v("Henk")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "Martijn" } }, [
-                                _vm._v("Martijn")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "Rick" } }, [
-                                _vm._v("Rick")
-                              ])
-                            ])
+                          _c("input", {
+                            attrs: {
+                              type: "radio",
+                              id: "radio1",
+                              name: "name",
+                              value: "Henk",
+                              checked: ""
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("label", { attrs: { for: "radio1" } }, [
+                            _vm._v("H")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            attrs: {
+                              type: "radio",
+                              id: "radio2",
+                              name: "name",
+                              value: "Emiel"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("label", { attrs: { for: "radio2" } }, [
+                            _vm._v("E")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            attrs: {
+                              type: "radio",
+                              id: "radio3",
+                              name: "name",
+                              value: "Rick"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("label", { attrs: { for: "radio3" } }, [
+                            _vm._v("R")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            attrs: {
+                              type: "radio",
+                              id: "radio4",
+                              name: "name",
+                              value: "Martijn"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("label", { attrs: { for: "radio4" } }, [
+                            _vm._v("M")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            attrs: {
+                              type: "radio",
+                              id: "radio5",
+                              name: "name",
+                              value: "Gerard"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("label", { attrs: { for: "radio5" } }, [
+                            _vm._v("S")
                           ])
                         ])
                       ]),
@@ -1445,6 +1508,7 @@ var render = function() {
                                   "option",
                                   {
                                     domProps: {
+                                      value: month,
                                       selected: _vm.isCurrentMonth(index)
                                     }
                                   },
