@@ -9,7 +9,21 @@
           <!-- styling tabs: https://jsfiddle.net/sol_b/L3wLe6h0/2/ -->
           <!-- styling tabs: https://codepen.io/puerdon/pen/RVeZjP -->
           <tabs>
-            <tab name="Overzicht" :selected="true">
+            <tab name="Mutaties" :selected="true">
+              <div class="table-holder">
+                <table class="table is-fullwidth">
+                  <tr v-for="(row, rindex) in mutations">
+                    <td
+                      v-for="(col, cindex) in parsedRow(row)"
+                      :style="cindex === 3 ? 'color: green;' : cindex === 4 ? 'color: red;' : ''"
+                    >
+                      {{ cindex === 1 ? col.charAt(0).toUpperCase() : col }}
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </tab>
+            <tab name="Overzicht">
               <div class="table-holder">
                 <table class="table is-fullwidth">
                   <tr v-for="(row, rindex) in dataFields">
@@ -98,6 +112,11 @@
         default: 'sdf',
       },
       dataFields: {
+        type: Array,
+        required: false,
+        default: () => []
+      },
+      mutations: {
         type: Array,
         required: false,
         default: () => []

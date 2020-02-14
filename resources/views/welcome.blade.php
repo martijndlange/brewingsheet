@@ -11,6 +11,7 @@
 <buk
   saldo="{{ $saldo }}"
   :data-fields="{{ $data }}"
+  :mutations="{{ $mutations }}"
 ></buk>
 </div>
 <script src="{{ asset('js/app.js')}}"></script>

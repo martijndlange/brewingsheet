@@ -185,6 +185,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     saldo: {
@@ -193,6 +207,13 @@ __webpack_require__.r(__webpack_exports__);
       "default": 'sdf'
     },
     dataFields: {
+      type: Array,
+      required: false,
+      "default": function _default() {
+        return [];
+      }
+    },
+    mutations: {
       type: Array,
       required: false,
       "default": function _default() {
@@ -1383,7 +1404,47 @@ var render = function() {
             _c(
               "tabs",
               [
-                _c("tab", { attrs: { name: "Overzicht", selected: true } }, [
+                _c("tab", { attrs: { name: "Mutaties", selected: true } }, [
+                  _c("div", { staticClass: "table-holder" }, [
+                    _c(
+                      "table",
+                      { staticClass: "table is-fullwidth" },
+                      _vm._l(_vm.mutations, function(row, rindex) {
+                        return _c(
+                          "tr",
+                          _vm._l(_vm.parsedRow(row), function(col, cindex) {
+                            return _c(
+                              "td",
+                              {
+                                style:
+                                  cindex === 3
+                                    ? "color: green;"
+                                    : cindex === 4
+                                    ? "color: red;"
+                                    : ""
+                              },
+                              [
+                                _vm._v(
+                                  "\n                    " +
+                                    _vm._s(
+                                      cindex === 1
+                                        ? col.charAt(0).toUpperCase()
+                                        : col
+                                    ) +
+                                    "\n                  "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      }),
+                      0
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tab", { attrs: { name: "Overzicht" } }, [
                   _c("div", { staticClass: "table-holder" }, [
                     _c(
                       "table",

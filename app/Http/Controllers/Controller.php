@@ -32,6 +32,8 @@ class Controller extends BaseController
 
   const RANGE_SALDO = 'Kasboek!B5';
 
+  const RANGE_MUTATIONS = 'Kasboek!B8:F100';
+
   public function __construct()
   {
     $client = $this->getClient();
@@ -49,10 +51,12 @@ class Controller extends BaseController
   {
     $saldo = $this->readData(self::RANGE_SALDO)[0][0];
     $data = json_encode($this->readData(self::RANGE_DATA));
+    $mutations = json_encode($this->readData(self::RANGE_MUTATIONS));
 
     return view('welcome')->with(compact(
       'saldo',
-      'data'
+      'data',
+      'mutations'
     ));
   }
 
@@ -91,10 +95,13 @@ class Controller extends BaseController
 
     $saldo = $this->readData(self::RANGE_SALDO)[0][0];
     $data = json_encode($this->readData(self::RANGE_DATA));
+    $mutations = json_encode($this->readData(self::RANGE_MUTATIONS));
 
-    return view('welcome')->with(compact(
+    return view('welcome')
+      ->with(compact(
       'saldo',
-      'data'
+      'data',
+      'mutations'
     ));
   }
 
