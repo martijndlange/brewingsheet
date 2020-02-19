@@ -8,101 +8,233 @@
           </p>
           <!-- styling tabs: https://jsfiddle.net/sol_b/L3wLe6h0/2/ -->
           <!-- styling tabs: https://codepen.io/puerdon/pen/RVeZjP -->
-          <tabs>
-            <tab name="Mutaties" :selected="true">
-              <div class="table-holder">
-                <table class="table is-fullwidth">
-                  <tr v-for="(row, rindex) in mutations">
-                    <td
-                      v-for="(col, cindex) in parsedRow(row)"
-                      :style="cindex === 3 ? 'color: green;' : cindex === 4 ? 'color: red;' : ''"
-                    >
-                      {{ cindex === 1 ? col.charAt(0).toUpperCase() : col }}
-                    </td>
-                  </tr>
-                </table>
-              </div>
-            </tab>
-            <tab name="Overzicht">
-              <div class="table-holder">
-                <table class="table is-fullwidth">
-                  <tr v-for="(row, rindex) in dataFields">
-                    <td
-                      v-for="(col, cindex) in parsedRow(row)"
-                      :class="{
-                        'col--month': cindex === 0,
-                        'row--name': rindex === 0,
-                        'row--total': rindex === 1
-                       }"
-                    >
-                      {{ getCellValue(col) }}
-                    </td>
-                  </tr>
-                </table>
-              </div>
-            </tab>
-            <tab name="Storten">
-              <form action="/" method="post">
-                <div class="form-holder">
-                  <div class="field">
-                    <label class="label">Naam</label>
-                    <div class="control">
-                      <input type="radio" id="radio1" name="name" value="Henk" checked>
-                      <label for="radio1">H</label>
-                      <input type="radio" id="radio2" name="name"value="Emiel">
-                      <label for="radio2">E</label>
-                      <input type="radio" id="radio3" name="name" value="Rick">
-                      <label for="radio3">R</label>
-                      <input type="radio" id="radio4" name="name" value="Martijn">
-                      <label for="radio4">M</label>
-                      <input type="radio" id="radio5" name="name" value="Gerard">
-                      <label for="radio5">S</label>
+
+          <div class="content-container">
+            <tabs
+              classString="is-centered is-boxed is-medium is-fullwidth"
+            >
+              <tab
+                name="Mutaties"
+                :selected="true">
+                <tabs>
+                  <tab name="Overzicht" :selected="true">
+                    <div class="table-holder">
+                      <table class="table is-fullwidth">
+                        <tr v-for="(row, rindex) in mutations">
+                          <td
+                            v-for="(col, cindex) in parsedRow(row)"
+                            :style="cindex === 3 ? 'color: green;' : cindex === 4 ? 'color: red;' : ''"
+                          >
+                            {{ cindex === 1 ? col.charAt(0).toUpperCase() : col }}
+                          </td>
+                        </tr>
+                      </table>
                     </div>
-                  </div>
-                  <div class="field">
-                    <label class="label">Maand</label>
-                    <div class="control">
-                      <div class="select is-fullwidth">
-                        <select name="month">
-                          <option
-                            v-for="(month, index) in months"
-                            :value="month"
-                            :selected="isCurrentMonth(index)"
-                          >{{ month.charAt(0).toUpperCase() + month.slice(1) }}
-                          </option>
-                        </select>
+                  </tab>
+                  <tab name="Maken">
+                    <form action="/" method="post">
+                      <div class="form-holder">
+                        <div class="field">
+                          <label class="label">Naam</label>
+                          <div class="control buttons">
+                            <div>
+                              <input type="radio" id="radio-mutation-name-1" name="name" value="Henk" checked>
+                              <label for="radio-mutation-name-1">H</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="radio-mutation-name-2" name="name"value="Emiel">
+                              <label for="radio-mutation-name-2">E</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="radio-mutation-name-3" name="name" value="Rick">
+                              <label for="radio-mutation-name-3">R</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="radio-mutation-name-4" name="name" value="Martijn">
+                              <label for="radio-mutation-name-4">M</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="radio-mutation-name-5" name="name" value="Gerard">
+                              <label for="radio-mutation-name-5">S</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <label class="label">Datum</label>
+                          <input class="input" name="date" type="date">
+                        </div>
+                        <div class="field">
+                          <label class="label">Omschrijving</label>
+                          <div class="control">
+                            <div class="select is-fullwidth">
+                              <select name="description">
+                                <option
+                                  :value="`Brouwmaterialen ${getLastMonth()}`"
+                                >{{ `Brouwmaterialen ${getLastMonth()}` }}
+                                </option>
+                                <option
+                                  :value="`Brouwmaterialen ${getNextMonth()}`"
+                                >{{ `Brouwmaterialen ${getNextMonth()}` }}
+                                </option>
+                                <option
+                                  :value="`Eten brouwdag ${getLastMonth()}`"
+                                >{{ `Eten brouwdag ${getLastMonth()}` }}
+                                </option>
+                                <option
+                                  :value="`Eten brouwdag ${getNextMonth()}`"
+                                >{{ `Eten brouwdag ${getNextMonth()}` }}
+                                </option>
+                                <option
+                                  :value="`Kosten brouwdag ${getLastMonth()}`"
+                                >{{ `Kosten brouwdag ${getLastMonth()}` }}
+                                </option>
+                                <option
+                                  :value="`Kosten brouwdag ${getNextMonth()}`"
+                                >{{ `Kosten brouwdag ${getNextMonth()}` }}
+                                </option>
+                                <option
+                                  value="Proevertjes"
+                                >Proevertjes
+                                </option>
+                                <option
+                                  value="Diversen"
+                                >Diversen
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <label class="label">Af / Bij</label>
+                          <div class="control buttons">
+                            <div>
+                              <input type="radio" id="radio-mutation-type-1" name="type" value="af" checked>
+                              <label for="radio-mutation-type-1">Afboeken</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="radio-mutation-type-2" name="type"value="bij">
+                              <label for="radio-mutation-type-2">Bijboeken</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <label class="label">Bedrag</label>
+                          <div class="control">
+                            <input class="input" type="text" name="amount">
+                            <span class="icon is-small is-left">
+                        <i class="fas fa-globe"></i>
+                      </span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div class="field">
-                    <label class="label">Bedrag</label>
-                    <div class="control">
-                      <div class="select is-fullwidth">
-                        <select name="amount">
-                          <option value="10">€ 10,00</option>
-                          <option value="0">€ 0,00</option>
-                        </select>
+                      <div class="panel-block">
+                        <div class="control">
+                          <button class="button is-link is-fullwidth">Versturen</button>
+                        </div>
                       </div>
-                      <span class="icon is-small is-left">
-                      <i class="fas fa-globe"></i>
-                    </span>
+                    </form>
+                  </tab>
+                </tabs>
+              </tab>
+
+              <tab name="Inleg">
+                <tabs>
+                  <tab name="Overzicht" :selected="true">
+                    <div class="table-holder">
+                      <table class="table is-fullwidth">
+                        <tr v-for="(row, rindex) in dataFields">
+                          <td
+                            v-for="(col, cindex) in parsedRow(row)"
+                            :class="{
+                          'col--month': cindex === 0,
+                          'row--name': rindex === 0,
+                          'row--total': rindex === 1
+                         }"
+                          >
+                            {{ getCellValue(col) }}
+                          </td>
+                        </tr>
+                      </table>
                     </div>
-                  </div>
-                </div>
-                <div class="panel-block">
-                  <div class="control">
-                    <button class="button is-link is-fullwidth">Versturen</button>
-                  </div>
-                </div>
-              </form>
-            </tab>
-          </tabs>
+                  </tab>
+                  <tab name="Storten">
+                    <form action="/" method="post">
+                      <div class="form-holder">
+                        <div class="field">
+                          <label class="label">Naam</label>
+                          <div class="control buttons">
+                            <div>
+                              <input type="radio" id="radio-deposit-name-1" name="name" value="Henk" checked>
+                              <label for="radio-deposit-name-1">H</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="radio-deposit-name-2" name="name"value="Emiel">
+                              <label for="radio-deposit-name-2">E</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="radio-deposit-name-3" name="name" value="Rick">
+                              <label for="radio-deposit-name-3">R</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="radio-deposit-name-4" name="name" value="Martijn">
+                              <label for="radio-deposit-name-4">M</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="radio-deposit-name-5" name="name" value="Gerard">
+                              <label for="radio-deposit-name-5">S</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <label class="label">Maand</label>
+                          <div class="control">
+                            <div class="select is-fullwidth">
+                              <select name="month">
+                                <option
+                                  v-for="(month, index) in months"
+                                  :value="month"
+                                  :selected="isCurrentMonth(index)"
+                                >{{ month.charAt(0).toUpperCase() + month.slice(1) }}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <label class="label">Bedrag</label>
+                          <div class="control">
+                            <div class="select is-fullwidth">
+                              <select name="amount">
+                                <option value="10">€ 10,00</option>
+                                <option value="0">€ 0,00</option>
+                              </select>
+                            </div>
+                            <span class="icon is-small is-left">
+                        <i class="fas fa-globe"></i>
+                      </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel-block">
+                        <div class="control">
+                          <button class="button is-link is-fullwidth">Versturen</button>
+                        </div>
+                      </div>
+                    </form>
+                  </tab>
+                </tabs>
+              </tab>
+
+            </tabs>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+
+  import bulmaCalendar from 'bulma-calendar';
 
   export default {
     props: {
@@ -138,10 +270,19 @@
           'november',
           'december',
         ],
+        date: new Date(),
       };
     } ,
     mounted() {
-      // console.log(this.dataFields);
+      const calendar = bulmaCalendar.attach(this.$refs.calendarTrigger, {
+        startDate: this.date,
+        dateFormat: 'DD/MM',
+        displayMode: 'dialog',
+        showClearButton: false,
+        todayLabel: 'Vandaag',
+        color: 'info',
+      })[0]
+      calendar.on('date:selected', e => (this.date = e.start || null))
     },
     computed: {
       maxCols() {
@@ -151,6 +292,18 @@
       },
     },
     methods: {
+      getToday() {
+        const d = new Date();
+        return d.getDate();
+      },
+      getLastMonth() {
+        const d = new Date();
+        return this.months[d.getMonth()];
+      },
+      getNextMonth() {
+        const d = new Date();
+        return this.months[d.getMonth()+1];
+      },
       parsedRow(row) {
         let ret = new Array(this.maxCols);
         row.forEach((row, i) => ret[i] = row);
@@ -174,6 +327,22 @@
 
 </script>
 <style lang="scss">
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: 100%;
+    padding-bottom: 10px;
+
+    > div {
+        flex: 1;
+    }
+  }
+
+.content-container {
+  padding-top: 10px;
+}
 
 .table-holder {
   padding: 0 0 40px 0;
@@ -212,6 +381,7 @@ input[type=radio] {
   Add some margin, padding to label
 */
 input[type=radio] + label {
+  width: 100%;
   display:inline-block;
   margin:-2px;
   padding: 6px 12px;
@@ -231,7 +401,6 @@ input[type=radio] {
 }
 
 input[type=radio] + label {
-  width: 20%;
   display:inline-block;
   margin:-2px;
   padding: 8px 12px;

@@ -49,18 +49,57 @@ class Controller extends BaseController
    */
   public function serve()
   {
+    return $this->getView();
+  }
+
+  private function getView() {
     $saldo = $this->readData(self::RANGE_SALDO)[0][0];
     $data = json_encode($this->readData(self::RANGE_DATA));
     $mutations = json_encode($this->readData(self::RANGE_MUTATIONS));
 
-    return view('welcome')->with(compact(
-      'saldo',
-      'data',
-      'mutations'
-    ));
+    return view('welcome')
+      ->with(compact(
+        'saldo',
+        'data',
+        'mutations'
+      ));
   }
 
-  public function handleForm(Request $request)
+  public function handleMutationForm(Request $request)
+  {
+    // $data = [['999', '3/3', 'Martijn', 'Diversen - sleutel 12', '', '€ 8,50']];
+
+    $d = $request->get('date');
+    $n = $request->get('name');
+    $o = $request->get('description');
+    $t = $request->get('type');
+    $a = $request->get('amount');
+
+    $data = [['999', $d, $n, $o, ($t === 'bij' ? $a : ''), ($t === 'af' ? $a : '') ]];
+
+    $this->appendData($data);
+
+    return $this->getView();
+  }
+
+  private function appendData($data)
+  {
+    $values = $data;
+    $valueInputOption = 'USER_ENTERED';
+    $body = new Google_Service_Sheets_ValueRange(
+      [
+        'values' => $values,
+      ]
+    );
+    $params = [
+      'valueInputOption' => $valueInputOption,
+    ];
+    $range = self::RANGE_MUTATIONS;
+    $result = $this->service->spreadsheets_values->append($this->sheet_id, $range, $body, $params);
+    return $result;
+  }
+
+  public function handleContributionForm(Request $request)
   {
     $n = $request->get('name');
     $m = $request->get('month');
@@ -93,16 +132,7 @@ class Controller extends BaseController
       $this->writeData($cell, $value);
     }
 
-    $saldo = $this->readData(self::RANGE_SALDO)[0][0];
-    $data = json_encode($this->readData(self::RANGE_DATA));
-    $mutations = json_encode($this->readData(self::RANGE_MUTATIONS));
-
-    return view('welcome')
-      ->with(compact(
-      'saldo',
-      'data',
-      'mutations'
-    ));
+    return $this->getView();
   }
 
   private function readData($range)
