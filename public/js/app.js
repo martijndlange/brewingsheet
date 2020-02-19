@@ -331,6 +331,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -357,7 +374,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
-      date: new Date()
+      date: new Date(),
+      choiceMade: false,
+      description: 'Selecteer...'
     };
   },
   mounted: function mounted() {
@@ -21844,7 +21863,9 @@ var render = function() {
                           _c("tab", { attrs: { name: "Maken" } }, [
                             _c(
                               "form",
-                              { attrs: { action: "/", method: "post" } },
+                              {
+                                attrs: { action: "/mutation", method: "post" }
+                              },
                               [
                                 _c("div", { staticClass: "form-holder" }, [
                                   _c("div", { staticClass: "field" }, [
@@ -21982,163 +22003,260 @@ var render = function() {
                                     ]),
                                     _vm._v(" "),
                                     _c("div", { staticClass: "control" }, [
-                                      _c(
-                                        "div",
-                                        { staticClass: "select is-fullwidth" },
-                                        [
-                                          _c(
-                                            "select",
-                                            { attrs: { name: "description" } },
+                                      !_vm.choiceMade
+                                        ? _c(
+                                            "div",
+                                            {
+                                              staticClass: "select is-fullwidth"
+                                            },
                                             [
                                               _c(
-                                                "option",
+                                                "select",
                                                 {
-                                                  domProps: {
-                                                    value:
-                                                      "Brouwmaterialen " +
-                                                      _vm.getLastMonth()
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    _vm._s(
-                                                      "Brouwmaterialen " +
-                                                        _vm.getLastMonth()
-                                                    ) +
-                                                      "\n                              "
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "option",
-                                                {
-                                                  domProps: {
-                                                    value:
-                                                      "Brouwmaterialen " +
-                                                      _vm.getNextMonth()
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    _vm._s(
-                                                      "Brouwmaterialen " +
-                                                        _vm.getNextMonth()
-                                                    ) +
-                                                      "\n                              "
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "option",
-                                                {
-                                                  domProps: {
-                                                    value:
-                                                      "Eten brouwdag " +
-                                                      _vm.getLastMonth()
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    _vm._s(
-                                                      "Eten brouwdag " +
-                                                        _vm.getLastMonth()
-                                                    ) +
-                                                      "\n                              "
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "option",
-                                                {
-                                                  domProps: {
-                                                    value:
-                                                      "Eten brouwdag " +
-                                                      _vm.getNextMonth()
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    _vm._s(
-                                                      "Eten brouwdag " +
-                                                        _vm.getNextMonth()
-                                                    ) +
-                                                      "\n                              "
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "option",
-                                                {
-                                                  domProps: {
-                                                    value:
-                                                      "Kosten brouwdag " +
-                                                      _vm.getLastMonth()
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    _vm._s(
-                                                      "Kosten brouwdag " +
-                                                        _vm.getLastMonth()
-                                                    ) +
-                                                      "\n                              "
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "option",
-                                                {
-                                                  domProps: {
-                                                    value:
-                                                      "Kosten brouwdag " +
-                                                      _vm.getNextMonth()
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    _vm._s(
-                                                      "Kosten brouwdag " +
-                                                        _vm.getNextMonth()
-                                                    ) +
-                                                      "\n                              "
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "option",
-                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.description,
+                                                      expression: "description"
+                                                    }
+                                                  ],
                                                   attrs: {
-                                                    value: "Proevertjes"
+                                                    name: "description"
+                                                  },
+                                                  on: {
+                                                    change: [
+                                                      function($event) {
+                                                        var $$selectedVal = Array.prototype.filter
+                                                          .call(
+                                                            $event.target
+                                                              .options,
+                                                            function(o) {
+                                                              return o.selected
+                                                            }
+                                                          )
+                                                          .map(function(o) {
+                                                            var val =
+                                                              "_value" in o
+                                                                ? o._value
+                                                                : o.value
+                                                            return val
+                                                          })
+                                                        _vm.description = $event
+                                                          .target.multiple
+                                                          ? $$selectedVal
+                                                          : $$selectedVal[0]
+                                                      },
+                                                      function($event) {
+                                                        _vm.choiceMade = true
+                                                      }
+                                                    ]
                                                   }
                                                 },
                                                 [
-                                                  _vm._v(
-                                                    "Proevertjes\n                              "
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "option",
-                                                {
-                                                  attrs: { value: "Diversen" }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "Diversen\n                              "
+                                                  _c(
+                                                    "option",
+                                                    {
+                                                      attrs: {
+                                                        value: "Selecteer..."
+                                                      },
+                                                      domProps: {
+                                                        selected: true
+                                                      }
+                                                    },
+                                                    [_vm._v("Selecteer...")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "optgroup",
+                                                    {
+                                                      attrs: {
+                                                        label: "Omschrijving"
+                                                      }
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "option",
+                                                        {
+                                                          domProps: {
+                                                            value:
+                                                              "Brouwmaterialen " +
+                                                              _vm.getLastMonth()
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              "Brouwmaterialen " +
+                                                                _vm.getLastMonth()
+                                                            ) +
+                                                              "\n                                "
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "option",
+                                                        {
+                                                          domProps: {
+                                                            value:
+                                                              "Brouwmaterialen " +
+                                                              _vm.getNextMonth()
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              "Brouwmaterialen " +
+                                                                _vm.getNextMonth()
+                                                            ) +
+                                                              "\n                                "
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "option",
+                                                        {
+                                                          domProps: {
+                                                            value:
+                                                              "Eten brouwdag " +
+                                                              _vm.getLastMonth()
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              "Eten brouwdag " +
+                                                                _vm.getLastMonth()
+                                                            ) +
+                                                              "\n                                "
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "option",
+                                                        {
+                                                          domProps: {
+                                                            value:
+                                                              "Eten brouwdag " +
+                                                              _vm.getNextMonth()
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              "Eten brouwdag " +
+                                                                _vm.getNextMonth()
+                                                            ) +
+                                                              "\n                                "
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "option",
+                                                        {
+                                                          domProps: {
+                                                            value:
+                                                              "Kosten brouwdag " +
+                                                              _vm.getLastMonth()
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              "Kosten brouwdag " +
+                                                                _vm.getLastMonth()
+                                                            ) +
+                                                              "\n                                "
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "option",
+                                                        {
+                                                          domProps: {
+                                                            value:
+                                                              "Kosten brouwdag " +
+                                                              _vm.getNextMonth()
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              "Kosten brouwdag " +
+                                                                _vm.getNextMonth()
+                                                            ) +
+                                                              "\n                                "
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "option",
+                                                        {
+                                                          attrs: {
+                                                            value: "Proevertjes"
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "Proevertjes\n                                "
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "option",
+                                                        {
+                                                          attrs: {
+                                                            value: "Diversen - "
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "Diversen\n                                "
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
                                                   )
                                                 ]
                                               )
                                             ]
                                           )
-                                        ]
-                                      )
+                                        : _c("div", [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.description,
+                                                  expression: "description"
+                                                }
+                                              ],
+                                              staticClass: "input",
+                                              attrs: {
+                                                name: "description",
+                                                type: "text"
+                                              },
+                                              domProps: {
+                                                value: _vm.description
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.description =
+                                                    $event.target.value
+                                                }
+                                              }
+                                            })
+                                          ])
                                     ])
                                   ]),
                                   _vm._v(" "),
@@ -22297,7 +22415,12 @@ var render = function() {
                           _c("tab", { attrs: { name: "Storten" } }, [
                             _c(
                               "form",
-                              { attrs: { action: "/", method: "post" } },
+                              {
+                                attrs: {
+                                  action: "/contribution",
+                                  method: "post"
+                                }
+                              },
                               [
                                 _c("div", { staticClass: "form-holder" }, [
                                   _c("div", { staticClass: "field" }, [

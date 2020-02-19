@@ -12,5 +12,5 @@
 */
 
 Route::get('/', 'Controller@serve')->name('home');
-Route::post('/', 'Controller@handleContributionForm')->name('handle-contribution');
-Route::post('/', 'Controller@handleMutationForm')->name('handle-mutation');
+Route::post('/contribution', 'Controller@handleContributionForm')->name('handle-contribution');
+Route::post('/mutation', 'Controller@handleMutationForm')->name('handle-mutation');

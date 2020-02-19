@@ -79,24 +79,7 @@ class Controller extends BaseController
 
     $this->appendData($data);
 
-    return $this->getView();
-  }
-
-  private function appendData($data)
-  {
-    $values = $data;
-    $valueInputOption = 'USER_ENTERED';
-    $body = new Google_Service_Sheets_ValueRange(
-      [
-        'values' => $values,
-      ]
-    );
-    $params = [
-      'valueInputOption' => $valueInputOption,
-    ];
-    $range = self::RANGE_MUTATIONS;
-    $result = $this->service->spreadsheets_values->append($this->sheet_id, $range, $body, $params);
-    return $result;
+    return redirect(route('home'));
   }
 
   public function handleContributionForm(Request $request)
@@ -132,7 +115,7 @@ class Controller extends BaseController
       $this->writeData($cell, $value);
     }
 
-    return $this->getView();
+    return redirect(route('home'));
   }
 
   private function readData($range)
@@ -140,6 +123,23 @@ class Controller extends BaseController
     $response = $this->service->spreadsheets_values->get($this->sheet_id, $range);
     $values = $response->getValues();
     return $values ?? [];
+  }
+
+  private function appendData($data)
+  {
+    $values = $data;
+    $valueInputOption = 'USER_ENTERED';
+    $body = new Google_Service_Sheets_ValueRange(
+      [
+        'values' => $values,
+      ]
+    );
+    $params = [
+      'valueInputOption' => $valueInputOption,
+    ];
+    $range = self::RANGE_MUTATIONS;
+    $result = $this->service->spreadsheets_values->append($this->sheet_id, $range, $body, $params);
+    return $result;
   }
 
   private function writeData($cell, $value)

@@ -32,7 +32,7 @@
                     </div>
                   </tab>
                   <tab name="Maken">
-                    <form action="/" method="post">
+                    <form action="/mutation" method="post">
                       <div class="form-holder">
                         <div class="field">
                           <label class="label">Naam</label>
@@ -66,41 +66,58 @@
                         <div class="field">
                           <label class="label">Omschrijving</label>
                           <div class="control">
-                            <div class="select is-fullwidth">
-                              <select name="description">
+                            <div v-if="!choiceMade" class="select is-fullwidth">
+                              <select
+                                name="description"
+                                v-model="description"
+                                @change="choiceMade = true"
+                              >
                                 <option
-                                  :value="`Brouwmaterialen ${getLastMonth()}`"
-                                >{{ `Brouwmaterialen ${getLastMonth()}` }}
-                                </option>
-                                <option
-                                  :value="`Brouwmaterialen ${getNextMonth()}`"
-                                >{{ `Brouwmaterialen ${getNextMonth()}` }}
-                                </option>
-                                <option
-                                  :value="`Eten brouwdag ${getLastMonth()}`"
-                                >{{ `Eten brouwdag ${getLastMonth()}` }}
-                                </option>
-                                <option
-                                  :value="`Eten brouwdag ${getNextMonth()}`"
-                                >{{ `Eten brouwdag ${getNextMonth()}` }}
-                                </option>
-                                <option
-                                  :value="`Kosten brouwdag ${getLastMonth()}`"
-                                >{{ `Kosten brouwdag ${getLastMonth()}` }}
-                                </option>
-                                <option
-                                  :value="`Kosten brouwdag ${getNextMonth()}`"
-                                >{{ `Kosten brouwdag ${getNextMonth()}` }}
-                                </option>
-                                <option
-                                  value="Proevertjes"
-                                >Proevertjes
-                                </option>
-                                <option
-                                  value="Diversen"
-                                >Diversen
-                                </option>
+                                  value="Selecteer..."
+                                  :selected="true"
+                                >Selecteer...</option>
+                                <optgroup label="Omschrijving">
+                                  <option
+                                    :value="`Brouwmaterialen ${getLastMonth()}`"
+                                  >{{ `Brouwmaterialen ${getLastMonth()}` }}
+                                  </option>
+                                  <option
+                                    :value="`Brouwmaterialen ${getNextMonth()}`"
+                                  >{{ `Brouwmaterialen ${getNextMonth()}` }}
+                                  </option>
+                                  <option
+                                    :value="`Eten brouwdag ${getLastMonth()}`"
+                                  >{{ `Eten brouwdag ${getLastMonth()}` }}
+                                  </option>
+                                  <option
+                                    :value="`Eten brouwdag ${getNextMonth()}`"
+                                  >{{ `Eten brouwdag ${getNextMonth()}` }}
+                                  </option>
+                                  <option
+                                    :value="`Kosten brouwdag ${getLastMonth()}`"
+                                  >{{ `Kosten brouwdag ${getLastMonth()}` }}
+                                  </option>
+                                  <option
+                                    :value="`Kosten brouwdag ${getNextMonth()}`"
+                                  >{{ `Kosten brouwdag ${getNextMonth()}` }}
+                                  </option>
+                                  <option
+                                    value="Proevertjes"
+                                  >Proevertjes
+                                  </option>
+                                  <option
+                                    value="Diversen - "
+                                  >Diversen
+                                  </option>
+                                </optgroup>
                               </select>
+                            </div>
+                            <div v-else>
+                              <input
+                                class="input"
+                                name="description"
+                                type="text"
+                                v-model="description">
                             </div>
                           </div>
                         </div>
@@ -158,7 +175,7 @@
                     </div>
                   </tab>
                   <tab name="Storten">
-                    <form action="/" method="post">
+                    <form action="/contribution" method="post">
                       <div class="form-holder">
                         <div class="field">
                           <label class="label">Naam</label>
@@ -271,6 +288,8 @@
           'december',
         ],
         date: new Date(),
+        choiceMade: false,
+        description: 'Selecteer...',
       };
     } ,
     mounted() {
