@@ -146,7 +146,13 @@
                       </div>
                       <div class="panel-block">
                         <div class="control">
-                          <button class="button is-link is-fullwidth">Versturen</button>
+                          <button
+                            class="button is-link is-fullwidth"
+                            @click="buttonMutationClicked = true"
+                            :class="{'is-loading': buttonMutationClicked}"
+                          >
+                            Versturen
+                          </button>
                         </div>
                       </div>
                     </form>
@@ -234,7 +240,13 @@
                       </div>
                       <div class="panel-block">
                         <div class="control">
-                          <button class="button is-link is-fullwidth">Versturen</button>
+                          <button
+                            class="button is-link is-fullwidth"
+                            @click="buttonContributionClicked = true"
+                            :class="{'is-loading': buttonContributionClicked}"
+                          >
+                            Versturen
+                          </button>
                         </div>
                       </div>
                     </form>
@@ -289,6 +301,8 @@
         ],
         date: new Date(),
         choiceMade: false,
+        buttonMutationClicked: false,
+        buttonContributionClicked: false,
         description: 'Selecteer...',
       };
     } ,

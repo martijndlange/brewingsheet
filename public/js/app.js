@@ -348,6 +348,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -376,6 +388,8 @@ __webpack_require__.r(__webpack_exports__);
       months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
       date: new Date(),
       choiceMade: false,
+      buttonMutationClicked: false,
+      buttonContributionClicked: false,
       description: 'Selecteer...'
     };
   },
@@ -22347,9 +22361,22 @@ var render = function() {
                                       "button",
                                       {
                                         staticClass:
-                                          "button is-link is-fullwidth"
+                                          "button is-link is-fullwidth",
+                                        class: {
+                                          "is-loading":
+                                            _vm.buttonMutationClicked
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            _vm.buttonMutationClicked = true
+                                          }
+                                        }
                                       },
-                                      [_vm._v("Versturen")]
+                                      [
+                                        _vm._v(
+                                          "\n                          Versturen\n                        "
+                                        )
+                                      ]
                                     )
                                   ])
                                 ])
@@ -22639,9 +22666,22 @@ var render = function() {
                                       "button",
                                       {
                                         staticClass:
-                                          "button is-link is-fullwidth"
+                                          "button is-link is-fullwidth",
+                                        class: {
+                                          "is-loading":
+                                            _vm.buttonContributionClicked
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            _vm.buttonContributionClicked = true
+                                          }
+                                        }
                                       },
-                                      [_vm._v("Versturen")]
+                                      [
+                                        _vm._v(
+                                          "\n                          Versturen\n                        "
+                                        )
+                                      ]
                                     )
                                   ])
                                 ])
