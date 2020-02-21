@@ -137,7 +137,7 @@
                         <div class="field">
                           <label class="label">Bedrag</label>
                           <div class="control">
-                            <input class="input" type="text" name="amount">
+                            <input class="input" type="number" name="amount">
                             <span class="icon is-small is-left">
                         <i class="fas fa-globe"></i>
                       </span>
